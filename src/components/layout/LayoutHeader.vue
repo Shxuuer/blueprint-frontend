@@ -1,5 +1,6 @@
 <script>
 import { UserOutlined } from '@ant-design/icons-vue'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'LayoutHeader',
@@ -13,7 +14,8 @@ export default {
         return [this.$route.name]
       },
       set () {}
-    }
+    },
+    ...mapGetters(['isLogin', 'userInfo'])
   }
 }
 </script>
@@ -30,9 +32,6 @@ export default {
         <a-menu-item key="Home">
           <router-link :to="{name: 'Home'}">主页</router-link>
         </a-menu-item>
-        <a-menu-item key="Tools">
-          <router-link :to="{name: 'Tools'}">工具</router-link>
-        </a-menu-item>
         <a-menu-item key="About">
           <router-link :to="{name: 'About'}">关于</router-link>
         </a-menu-item>
@@ -44,7 +43,7 @@ export default {
           <a-avatar shape="square" :size="40">
             <UserOutlined/>
           </a-avatar>
-          <span style="margin-left: 16px;color: #3e3e3e;">登录</span>
+          <span style="margin-left: 16px;color: #3e3e3e;">{{isLogin ? userInfo.username : '登录'}}</span>
         </router-link>
       </div>
     </a-col>

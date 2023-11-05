@@ -20,7 +20,7 @@ export default {
         <span style="font-size: 1.1em">贵州省 长顺县</span>
       </div>
       <div style="margin-left: 300px">
-        <a href="https://www.bupt.edu.cn">
+        <a href="https://www.bupt.edu.cn" target="_blank">
           <img alt src="@/assets/footlogo.png">
         </a>
       </div>
@@ -28,7 +28,7 @@ export default {
     <div class="copyright">
       ChangShun @2023 Created by BUPT-SCS-BluePrint
       <span style="color: #a6a6a6; margin-left: 30px">备案号：</span>
-      <a href="https://beian.miit.gov.cn/#/Integrated/index" style="color: #f7f7f7">京ICP备xxxxxx号</a>
+      <a href="https://beian.miit.gov.cn/#/Integrated/index" style="color: #f7f7f7" target="_blank">京ICP备xxxxxx号</a>
     </div>
   </div>
 </template>
