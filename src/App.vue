@@ -4,7 +4,12 @@ import LayoutFooter from '@/components/layout/LayoutFooter.vue'
 
 export default {
   name: 'APP',
-  components: { LayoutFooter, LayoutHeader }
+  components: { LayoutFooter, LayoutHeader },
+  async beforeCreate () {
+    if (window.localStorage.getItem('token')) {
+      // 刷新token
+    }
+  }
 }
 </script>
 
@@ -29,13 +34,14 @@ export default {
 }
 
 .header {
+  z-index: 2;
   padding: 0;
   position: fixed;
   width: 100%;
 }
 
 .content {
-  min-height: calc(100vh - 250px);
+  min-height: calc(100vh - 150px);
   width: 80%;
   margin: 84px auto 20px auto;
   background-color: #fff;
