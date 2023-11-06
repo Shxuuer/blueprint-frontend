@@ -21,7 +21,7 @@ export default createStore({
   actions: {
     async login ({ state, commit }, { username, password }) {
       if (state.isLogin) return
-      return axios.post('/log-in', {
+      return axios.post('/user/log-in', {
         username,
         password
       }).then(res => {

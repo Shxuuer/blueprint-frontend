@@ -44,7 +44,7 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.get('/solid-sensors', {
+      this.$axios.get('/soil-sensor/data', {
         params: this.convertToJson
       }).then(res => {
         this.data = res.data.data

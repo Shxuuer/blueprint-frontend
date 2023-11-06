@@ -43,7 +43,7 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.get('/air-quality-sensors', {
+      this.$axios.get('/air-quality-sensors/data', {
         params: this.convertToJson
       }).then(res => {
         this.data = res.data.data

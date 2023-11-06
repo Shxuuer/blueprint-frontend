@@ -45,5 +45,6 @@ export default {
   width: 80%;
   margin: 84px auto 20px auto;
   background-color: #fff;
+  padding-bottom: 40px;
 }
 </style>
