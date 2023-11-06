@@ -7,7 +7,7 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
-  // 添加cookie/token等等
+  config.headers.token = localStorage.getItem('token') || []
   return config
 }, function (error) {
   return Promise.reject(error)

@@ -23,7 +23,7 @@ export default {
   methods: {
     async userRegister () {
       this.registerLoading = true
-      await this.$axios.post('/sign-up', this.register).then(res => {
+      await this.$axios.post('/user/sign-up', this.register).then(res => {
         message.info('注册成功！')
         this.isRegister = false
       }).catch(err => {

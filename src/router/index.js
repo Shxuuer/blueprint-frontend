@@ -32,6 +32,11 @@ const routes = [
     path: '/air-monitoring',
     name: 'AirMonitoring',
     component: () => import('@/views/tools/AirMonitoring.vue')
+  },
+  {
+    path: '/alert',
+    name: 'Alert',
+    component: () => import('@/views/tools/AlertInfo.vue')
   }
 ]
 
