@@ -24,7 +24,9 @@ export default {
   <a-row style="background-color:#fff;">
     <a-col :span="2">
       <div class="logo">
-        <img alt src="@/assets/footimg1.png" style="height: 60px">
+        <router-link :to="{name: 'Home'}">
+          <img alt src="@/assets/footimg1.png" style="height: 60px;">
+        </router-link>
       </div>
     </a-col>
     <a-col :span="18">
@@ -39,7 +41,7 @@ export default {
     </a-col>
     <a-col>
       <div class="user">
-        <router-link :to="{name: 'Login'}">
+        <router-link :to="{name: isLogin ? 'UserInfo' : 'Login'}">
           <a-avatar shape="square" :size="40">
             <UserOutlined/>
           </a-avatar>

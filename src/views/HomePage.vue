@@ -43,7 +43,7 @@ export default {
 <template>
   <div class="divide">
     <div class="line left-line"/>
-    <div class="title">长顺农业检测控制台</div>
+    <h3 class="title">长顺农业检测控制台</h3>
     <div class="line right-line"/>
   </div>
   <div class="img" :style="{backgroundImage: `url(${bgImg.images[bgImg.index]})`}">
@@ -132,9 +132,11 @@ export default {
 }
 
 .title {
-  font-size: 2em;
+  font-size: 2.5em;
   margin: auto 20px;
   color: #4e4e6e;
+  font-family: 华文楷体;
+  font-weight: bold;
 }
 
 .left-line::after,

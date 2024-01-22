@@ -26,7 +26,7 @@ export default {
       </div>
     </div>
     <div class="copyright">
-      ChangShun @2023 Created by BUPT-SCS-BluePrint
+      ChangShun @2024 Created by BUPT-SCS-BluePrint
       <span style="color: #a6a6a6; margin-left: 30px">备案号：</span>
       <a href="https://beian.miit.gov.cn/#/Integrated/index" style="color: #f7f7f7" target="_blank">京ICP备xxxxxx号</a>
     </div>

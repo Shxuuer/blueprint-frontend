@@ -18,9 +18,15 @@ const routes = [
   },
   // 登录
   {
-    path: '/login',
+    path: '/user',
     name: 'Login',
-    component: () => import('@/views/login/LoginPage.vue')
+    component: () => import('@/views/user/LoginPage.vue')
+  },
+  // 用户信息
+  {
+    path: '/user/info',
+    name: 'UserInfo',
+    component: () => import('@/views/user/UserInfo.vue')
   },
   // 工具
   {
