@@ -7,7 +7,11 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
-  config.headers.token = localStorage.getItem('token') || []
+  config.headers.token = localStorage.getItem('token') || ''
+  if (config.url.substring(0, 1) === '@') {
+    config.baseURL = '/'
+    config.url = config.url.substring(1)
+  }
   return config
 }, function (error) {
   return Promise.reject(error)

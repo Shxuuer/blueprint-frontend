@@ -1,25 +1,36 @@
 <script>
 import LayoutHeader from '@/components/layout/LayoutHeader.vue'
 import LayoutFooter from '@/components/layout/LayoutFooter.vue'
+import zhCN from 'ant-design-vue/es/locale/zh_CN'
+import dayjs from 'dayjs'
+import 'dayjs/locale/zh-cn'
+dayjs.locale('zh-cn')
 
 export default {
   name: 'APP',
-  components: { LayoutFooter, LayoutHeader }
+  components: { LayoutFooter, LayoutHeader },
+  data () {
+    return {
+      locale: zhCN
+    }
+  }
 }
 </script>
 
 <template>
-  <a-layout>
-    <a-layout-header class="header">
-      <LayoutHeader/>
-    </a-layout-header>
-    <a-layout-content class="content">
-      <router-view/>
-    </a-layout-content>
-    <a-layout-footer style="padding: 0">
-      <LayoutFooter/>
-    </a-layout-footer>
-  </a-layout>
+  <a-config-provider :locale="locale">
+    <a-layout>
+      <a-layout-header class="header">
+        <LayoutHeader/>
+      </a-layout-header>
+      <a-layout-content class="content">
+          <router-view/>
+      </a-layout-content>
+      <a-layout-footer style="padding: 0">
+        <LayoutFooter/>
+      </a-layout-footer>
+    </a-layout>
+  </a-config-provider>
 </template>
 
 <style scoped>
