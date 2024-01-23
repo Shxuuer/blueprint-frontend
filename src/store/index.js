@@ -38,6 +38,8 @@ export default createStore({
         token: localStorage.getItem('token')
       }).then(res => {
         this.commit('setUserInfo', res.data.data)
+      }).catch(() => {
+        localStorage.removeItem('token')
       })
     },
     async logout ({ state, commit }) {
