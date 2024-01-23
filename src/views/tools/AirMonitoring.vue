@@ -10,16 +10,7 @@ export default {
     return {
       selectId: 0,
       time: null,
-      data: {
-        sensor_id: '0',
-        sensor_info: '',
-        sensor_data: {
-          co2concentration: 0,
-          humidity: 0,
-          temperature: 0,
-          detect_time: '0'
-        }
-      },
+      data: [],
       loading: false
     }
   },
@@ -43,10 +34,13 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.get('/air-quality-sensors/data', {
+      this.$axios.get('/air-quality-sensor/data', {
         params: this.convertToJson
       }).then(res => {
         this.data = res.data.data
+      }).catch(() => {
+        message.error('查询失败')
+      }).finally(() => {
         this.loading = false
       })
     }
@@ -78,14 +72,14 @@ export default {
       <a-row style="width: 100%">
         <a-spin :spinning="loading" style="margin: auto;"/>
       </a-row>
-      <a-row style="width: 100%" v-if="data.sensor_id!=='0' && !loading">
-        <a-descriptions :title="`${data.sensor_id}号空气传感器`" bordered style="width: 90%;margin: auto">
-          <a-descriptions-item label="传感器编号">{{data.sensor_id}}</a-descriptions-item>
-          <a-descriptions-item label="传感器信息" :span="2">{{data.sensor_info}}</a-descriptions-item>
-          <a-descriptions-item label="二氧化碳浓度">{{data.sensor_data.co2concentration}}</a-descriptions-item>
-          <a-descriptions-item label="温度">{{data.sensor_data.temperature}}</a-descriptions-item>
-          <a-descriptions-item label="湿度">{{data.sensor_data.humidity}}</a-descriptions-item>
-          <a-descriptions-item label="检测时间">{{data.sensor_data.detect_time}}</a-descriptions-item>
+      <a-row style="width: 100%" v-if="!loading">
+        <a-descriptions :title="`${item.sensor_id}号空气传感器`" bordered class="data" v-for="(item, index) in data" :key="index">
+          <a-descriptions-item label="传感器编号">{{item.sensor_id}}</a-descriptions-item>
+          <a-descriptions-item label="传感器信息" :span="2">{{item.sensor_info}}</a-descriptions-item>
+          <a-descriptions-item label="二氧化碳浓度">{{item.sensor_data.co2concentration}}</a-descriptions-item>
+          <a-descriptions-item label="温度">{{item.sensor_data.temperature}}</a-descriptions-item>
+          <a-descriptions-item label="湿度">{{item.sensor_data.humidity}}</a-descriptions-item>
+          <a-descriptions-item label="检测时间">{{item.sensor_data.detect_time}}</a-descriptions-item>
         </a-descriptions>
       </a-row>
     </a-row>
@@ -93,5 +87,14 @@ export default {
 </template>
 
 <style scoped>
+.data:first-child {
+  border-top: none 0;
+}
 
+.data {
+  width: 90%;
+  margin: 10px auto;
+  border-top: 1px solid #a3a3a3;
+  padding-top: 20px;
+}
 </style>
