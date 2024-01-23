@@ -5,9 +5,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'LayoutHeader',
   components: { UserOutlined },
-  data () {
-    return {}
-  },
   computed: {
     tab: {
       get () {
@@ -42,10 +39,11 @@ export default {
     <a-col>
       <div class="user">
         <router-link :to="{name: isLogin ? 'UserInfo' : 'Login'}">
-          <a-avatar shape="square" :size="40">
+          <a-avatar shape="square" :size="40"
+                    :style="{backgroundColor: isLogin ? userInfo.role === 'admin' ? '#ff9f3e' : userInfo.role === 'super-admin' ? '#ff3232' : '#3e3ea3' : '#bfbfbf'}">
             <UserOutlined/>
           </a-avatar>
-          <span style="margin-left: 16px;color: #3e3e3e;">{{isLogin ? userInfo.username : '登录'}}</span>
+          <span style="margin-left: 16px;color: #3e3e3e;font-size: 1.1em;">{{isLogin ? userInfo.username : '登录'}}</span>
         </router-link>
       </div>
     </a-col>

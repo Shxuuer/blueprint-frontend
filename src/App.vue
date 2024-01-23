@@ -1,19 +1,10 @@
 <script>
 import LayoutHeader from '@/components/layout/LayoutHeader.vue'
 import LayoutFooter from '@/components/layout/LayoutFooter.vue'
-import { message } from 'ant-design-vue'
 
 export default {
   name: 'APP',
-  components: { LayoutFooter, LayoutHeader },
-  async beforeCreate () {
-    if (window.localStorage.getItem('token')) {
-      // 刷新token
-      await this.$store.dispatch('loginByToken').catch(() => {
-        message.error('登录过期，请重新登录！')
-      })
-    }
-  }
+  components: { LayoutFooter, LayoutHeader }
 }
 </script>
 

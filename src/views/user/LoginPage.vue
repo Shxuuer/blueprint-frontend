@@ -51,7 +51,8 @@ export default {
         message.info('登录成功！')
         this.$router.push({ name: 'Home' })
       }).catch(err => {
-        message.error('登录失败！')
+        if (err.register.status === 401) message.error('账号不存在或密码错误！')
+        else message.error('登录失败！')
         console.log(err)
       }).finally(() => {
         this.loginLoading = false
