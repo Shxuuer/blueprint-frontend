@@ -12,7 +12,10 @@ export default {
       },
       set () {}
     },
-    ...mapGetters(['isLogin', 'userInfo'])
+    ...mapGetters(['userInfo']),
+    isLogin () {
+      return this.$store.getters.userInfo.role !== 'unregistered'
+    }
   }
 }
 </script>

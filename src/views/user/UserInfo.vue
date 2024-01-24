@@ -38,8 +38,11 @@ export default {
 
 <template>
   <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="用户信息" @back="$router.push({name: 'Home'})"/>
-  <!--展示用户信息-->
-  {{user}}
+  <a-descriptions>
+    <a-descriptions-item label="用户名">{{user.username}}</a-descriptions-item>
+    <a-descriptions-item label="UID">{{user.uid}}</a-descriptions-item>
+    <a-descriptions-item label="权限">{{user.role}}</a-descriptions-item>
+  </a-descriptions>
   <a-button @click="logout">登出</a-button>
   <a-row v-if="user.role === 'super-admin'">
     <a-input-group compact>

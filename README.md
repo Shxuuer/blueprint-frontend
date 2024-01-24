@@ -1,28 +1,60 @@
-# blue-print-frontend
+# 长顺县助农前端项目
 
-This template should help get you started developing with Vue 3 in Vite.
+version: 0.0.1
 
-## Recommended IDE Setup
+## 使用指南
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### 用户管理
+#### 用户注册
+1. 点击右上角的“登录”按钮，进入登录页面后点击“立即注册”。
+2. 输入手机号、姓名、手机验证码、密码后点击“注册”。
+3. 注册成功后，自动登录。
+#### 用户登录
+1. 点击右上角的“登录”按钮，进入登录页面。
+2. 输入手机号、密码后点击“登录”。
+#### 用户分级
+将用户分级为游客、管理员、超级管理员三个等级。
+1. 游客：暂无权限。
+2. 管理员：可以查看传感器数据、监控预警数据、处理预警问题。
+3. 超级管理员：包含上述所有权限，可以将游客账户升级为管理员。
 
-## Customize configuration
+### 传感器信息
+#### 传感器信息查看
+在主页下方有三个传感器信息卡片，分别为土壤数据监控、空气数据监控、预警信息。
+#### 土壤、空气数据监控
+1. 点击卡片进入传感器数据监控页面。
+2. 选择仪器编号。
+3. 选中时间起始、终止节点，得到时间范围内该仪器所有的检测数据。
+4. 选中时间时先点击箭头左侧选择开始时间。在弹出的窗口中，左侧选择年份、月份、日期，右侧选择时分秒，点击确定后按照同样方法选择结束时间。
+#### 预警信息查询
+1. 点击卡片进入预警信息页面。
+2. 有三个方面提供筛选，分别为处理状态、时间范围、病虫害名称。
+3. 处理状态可选择为未处理、已处理、全部。
+4. 时间范围删选条件为可选，选中前面的复选框时会按照时间范围进行筛选，否则时间范围不会作为筛选条件。时间选择方法与上文中提到的时间筛选方式相同。
+5. 病虫害名称为可选，选中前面的复选框时会按照病虫害名称进行筛选，否则病虫害名称不会作为筛选条件。病虫害名称选择方法为点击下拉框，选择病虫害名称后点击查询。
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
 
 ```sh
 npm install
 ```
+or
+```sh
+yarn install
+```
+or
+```sh
+cnpm install
+```
 
-### Compile and Hot-Reload for Development
+## Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Compile and Minify for Production
 
 ```sh
 npm run build
