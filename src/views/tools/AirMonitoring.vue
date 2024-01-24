@@ -11,7 +11,8 @@ export default {
       selectId: 0,
       time: null,
       data: [],
-      loading: false
+      loading: false,
+      instrList: []
     }
   },
   computed: {
@@ -44,6 +45,16 @@ export default {
         this.loading = false
       })
     }
+  },
+  beforeMount () {
+    // 获取仪器编号
+    this.$axios.get('/sensor/data', {
+      params: {
+        sensor_category: 'air-quality'
+      }
+    }).then(res => {
+      this.instrList = res.data.data
+    })
   }
 }
 </script>
@@ -59,8 +70,11 @@ export default {
         </a>
         <template #overlay>
           <a-menu>
-            <a-menu-item v-for="index in 10" :key="index" @click="selectId = index">
-              <span>{{index}}号</span>
+            <a-menu-item v-for="(item, index) in instrList" :key="index" @click="selectId = item.id">
+              <span>
+                {{item.id}}号 {{item.location}} {{item.function}}
+                <span v-if="item.status === '故障'" style="color: red">（故障）</span>
+              </span>
             </a-menu-item>
           </a-menu>
         </template>

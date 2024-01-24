@@ -30,7 +30,7 @@ export default {
       ],
       filter: {
         pest_name: '',
-        handled: 2,
+        handled: 0,
         time: null,
         checker: {
           pest_name: false,
@@ -77,44 +77,45 @@ export default {
 
 <template>
   <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="预警信息" @back="$router.push({name: 'Home'})"/>
-  <div class="filter">
-    <a-row>
-      <div>是否已处理：</div>
-      <a-radio-group v-model:value="filter.handled" button-style="solid">
-        <a-radio-button :value="0">未处理</a-radio-button>
-        <a-radio-button :value="1">已处理</a-radio-button>
-        <a-radio-button :value="2">全部</a-radio-button>
-      </a-radio-group>
-    </a-row>
-    <a-row>
-      <a-checkbox v-model:checked="filter.checker.time">时间范围</a-checkbox>
-      <a-range-picker v-model:value="filter.time" show-time style="margin-right: 10px"/>
-    </a-row>
-    <a-row>
-      <a-checkbox v-model:checked="filter.checker.pest_name">病虫害名称</a-checkbox>
-      <a-dropdown>
-        <a @click.prevent style="font-size: 1.2em;margin-right: 30px;" >
-          {{ filter.pest_name === '' ? '选择病虫害类型' : `已选中${filter.pest_name}` }}
-          <DownOutlined />
-        </a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item v-for="index in 10" :key="index" @click="filter.pest_name = `${index}病虫害`">
-              <span>{{index}}病虫害</span>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-    </a-row>
-    <a-row>
-      <a-button type="primary" @click="getAlertInfo">查询</a-button>
-      <a-spin :spinning="loading"/>
-    </a-row>
-
-  </div>
-  <a-collapse v-model:activeKey="activeKey" :bordered="false" v-if="alertInfo[0].id !== 0">
-    <a-collapse-panel v-for="(item, index) in alertInfo" :key="index" :header="`${item.pest_name}:${item.pest_description}`">
-      <a-descriptions :title="`预警编号${index + 1}`" bordered style="width: 90%;margin: auto" :column="3">
+  <a-card class="filter" :bordered="false" title="筛选条件">
+    <a-space direction="vertical" size="middle">
+      <a-row>
+        <div style="display: flex;align-items: center;font-size: 1.2em">是否已处理：</div>
+        <a-radio-group v-model:value="filter.handled" button-style="solid">
+          <a-radio-button :value="0">未处理</a-radio-button>
+          <a-radio-button :value="1">已处理</a-radio-button>
+          <a-radio-button :value="2">全部</a-radio-button>
+        </a-radio-group>
+      </a-row>
+      <a-row>
+        <a-checkbox v-model:checked="filter.checker.time" style="display: flex;align-items: center;font-size: 1.2em">时间范围：</a-checkbox>
+        <a-range-picker v-model:value="filter.time" show-time style="margin-right: 10px" :disabled="!filter.checker.time"/>
+      </a-row>
+      <a-row>
+        <a-checkbox v-model:checked="filter.checker.pest_name" style="display: flex;align-items: center;font-size: 1.2em">病虫害名称：</a-checkbox>
+        <a-dropdown :disabled="!filter.checker.pest_name">
+          <a @click.prevent style="font-size: 1.2em;margin-right: 30px;" >
+            {{ filter.pest_name === '' ? '选择病虫害类型' : `已选中${filter.pest_name}` }}
+            <DownOutlined />
+          </a>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item v-for="index in 10" :key="index" @click="filter.pest_name = `${index}病虫害`">
+                <span>{{index}}病虫害</span>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+      </a-row>
+      <a-row>
+        <a-button type="primary" @click="getAlertInfo">查询</a-button>
+        <a-spin :spinning="loading"/>
+      </a-row>
+    </a-space>
+  </a-card>
+  <a-collapse v-model:activeKey="activeKey" :bordered="false" v-if="alertInfo[0].id !== 0" ghost style="border: 1px solid #939393;width: 97%;margin: auto">
+    <a-collapse-panel v-for="(item, index) in alertInfo" :key="index" :header="`${item.pest_name}：${item.pest_description}`" class="info">
+      <a-descriptions style="margin: auto" :column="3" bordered>
         <a-descriptions-item label="详细信息" :span="3">{{item.pest_description}}</a-descriptions-item>
         <a-descriptions-item label="病虫害类别" :span="3">{{item.pest_name}}</a-descriptions-item>
         <a-descriptions-item label="预警时间">{{item.alert_time}}</a-descriptions-item>
@@ -124,13 +125,11 @@ export default {
         <a-descriptions-item label="勘测农田编号">{{item.field_id}}</a-descriptions-item>
         <a-descriptions-item label="处理状态">{{item.handled ? '已处理' : '未处理'}}</a-descriptions-item>
         <a-descriptions-item label="现场图片" :span="3">
-          <a-list :grid="{ gutter: 16, column: 4 }">
-            <a-list-item v-for="(image, index) in item.image_paths" :key="index">
-              <a-card :hoverable="true" style="width: 100%">
-                <img :src="image" style="width: 100%" alt=""/>
-              </a-card>
-            </a-list-item>
-          </a-list>
+          <div class="image">
+            <a-image-preview-group>
+              <a-image :src="image" :width="200" v-for="(image, index) in item.image_paths" :key="index"/>
+            </a-image-preview-group>
+          </div>
         </a-descriptions-item>
       </a-descriptions>
     </a-collapse-panel>
@@ -138,5 +137,25 @@ export default {
 </template>
 
 <style scoped>
+.filter {
+  width: 800px;
+  margin: 20px auto 30px 30px;
+}
 
+.info {
+  border-top: 1px solid #939393;
+  margin: 1px auto;
+}
+
+.info:first-child {
+  border-top: none;
+}
+
+.image {
+  display: grid;
+  grid-row-gap: 25px;
+  grid-column-gap: 25px;
+  grid-template-columns: auto auto auto auto;
+  margin-left: 20px;
+}
 </style>
