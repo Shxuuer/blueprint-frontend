@@ -11,6 +11,7 @@ export default {
   components: { LayoutFooter, LayoutHeader },
   data () {
     return {
+      // antd for vue 组件汉化，同步dayjs默认时区汉化，绑定在a-config-provider上
       locale: zhCN
     }
   }
