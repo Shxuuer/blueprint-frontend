@@ -1,13 +1,16 @@
 import axios from 'axios'
 
+// TODO: 上线之前一定要和后端确认一下
 const instance = axios.create({
   baseURL: '/api',
-  timeout: 2500
+  timeout: 5000
 })
 
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
-  config.headers.token = localStorage.getItem('token') || ''
+  // 所有请求加上token头
+  config.headers.token = localStorage.getItem('token') || undefined
+  // 请求本地资源时，加上@前缀
   if (config.url.substring(0, 1) === '@') {
     config.baseURL = '/'
     config.url = config.url.substring(1)

@@ -10,7 +10,7 @@ import './assets/tailwind.css'
 const app = createApp(App)
 
 if (window.localStorage.getItem('token')) {
-  // 刷新token
+  // 刷新token/尝试使用token登录
   await store.dispatch('loginByToken').catch(() => {
     message.error('登录过期，请重新登录！')
   })

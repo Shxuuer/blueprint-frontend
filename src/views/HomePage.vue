@@ -5,8 +5,9 @@ export default {
   name: 'HomePage',
   components: { DotChartOutlined, WarningOutlined },
   mounted () {
+    // 主页背景图片轮播
     setInterval(() => {
-      this.bgImg.index = (this.bgImg.index + 1) % 2
+      this.bgImg.index = (this.bgImg.index + 1) % this.bgImg.images.length
     }, 6000)
   },
   data () {

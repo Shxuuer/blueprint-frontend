@@ -10,24 +10,7 @@ export default {
   data () {
     return {
       activeKey: [],
-      alertInfo: [
-        {
-          id: 0,
-          handled: false,
-          alert_time: '2023-11-06T08:00:00Z',
-          image_paths: [
-            'images/detection/image1.jpg',
-            'images/detection/image2.jpg'
-          ],
-          drone_id: 202,
-          field_id: 58,
-          latitude: 34.052235,
-          longitude: -118.243683,
-          pest_name: 'Aphids',
-          pest_description: 'Small sap-sucking insects that can cause damage to a variety of plants.',
-          pest_probability: 0.76
-        }
-      ],
+      alertInfo: [],
       filter: {
         pest_name: '',
         handled: 0,
@@ -63,6 +46,7 @@ export default {
     }
   },
   computed: {
+    // 将筛选条件转换为json格式
     convertToJson () {
       return {
         pest_name: this.filter.checker.pest_name ? this.filter.pest_name : undefined,
@@ -113,7 +97,7 @@ export default {
       </a-row>
     </a-space>
   </a-card>
-  <a-collapse v-model:activeKey="activeKey" :bordered="false" v-if="alertInfo[0].id !== 0" ghost style="border: 1px solid #939393;width: 97%;margin: auto">
+  <a-collapse v-model:activeKey="activeKey" :bordered="false" ghost style="border: 1px solid #939393;width: 97%;margin: auto">
     <a-collapse-panel v-for="(item, index) in alertInfo" :key="index" :header="`${item.pest_name}：${item.pest_description}`" class="info">
       <a-descriptions style="margin: auto" :column="3" bordered>
         <a-descriptions-item label="详细信息" :span="3">{{item.pest_description}}</a-descriptions-item>

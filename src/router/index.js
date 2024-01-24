@@ -2,7 +2,8 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import message from 'ant-design-vue/es/message'
 import store from '@/store'
 
-// 未注册、游客、管理员、超级管理员分别定义为0、1、2、3
+// 用户角色定义为未登录、游客、管理员、超级管理员
+// 权限管理方式为白名单，在路由中pass字段定义通行角色，未定义则默认全部通行
 const userRole = {
   UNREGISTERED: 'unregistered',
   CUSTOMER: 'customer',
@@ -87,13 +88,16 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  // 正常放行
+  // 默认放行
   if (!to.meta.pass) return true
+  // 白名单放行
   if (to.meta.pass.includes(store.getters.userInfo.role)) return true
   else if (store.getters.userInfo.role === userRole.UNREGISTERED) {
+    // 未登录跳转登录
     message.warn('请先登录！')
     return '/login'
   } else {
+    // 权限不足跳转主页
     message.warn('权限不足！')
     return '/home'
   }

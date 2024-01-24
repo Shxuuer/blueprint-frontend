@@ -22,6 +22,7 @@ export default createStore({
     userInfo: state => state.userInfo
   },
   actions: {
+    // 登录事件
     async login ({ state, commit }, { phone, password }) {
       return axios.post('/user/log-in', {
         phone,
@@ -30,6 +31,7 @@ export default createStore({
         this.commit('setUserInfo', res.data.data)
       })
     },
+    // token尝试登录
     async loginByToken ({ state, commit }) {
       return axios.put('/user/log-in', {
         token: localStorage.getItem('token')
@@ -39,6 +41,7 @@ export default createStore({
         localStorage.removeItem('token')
       })
     },
+    // 登出
     async logout ({ state, commit }) {
       localStorage.removeItem('token')
       state.userInfo = {
@@ -48,6 +51,7 @@ export default createStore({
         token: ''
       }
     },
+    // 注册
     async register ({ state, commit }, { phone, password, username }) {
       return axios.post('/user/sign-up', {
         phone, password, username
