@@ -4,10 +4,10 @@ import store from '@/store'
 
 // 未注册、游客、管理员、超级管理员分别定义为0、1、2、3
 const userRole = {
-  UNREGISTERED: 0,
-  CUSTOMER: 1,
-  ADMIN: 2,
-  SUPER_ADMIN: 3
+  UNREGISTERED: 'unregistered',
+  CUSTOMER: 'customer',
+  ADMIN: 'admin',
+  SUPER_ADMIN: 'super-admin'
 }
 
 const routes = [
@@ -28,15 +28,21 @@ const routes = [
   },
   // 登录
   {
-    path: '/user',
+    path: '/login',
     name: 'Login',
-    component: () => import('@/views/user/LoginPage.vue')
+    component: () => import('@/views/user/LoginPage.vue'),
+    meta: {
+      pass: [userRole.UNREGISTERED]
+    }
   },
   // 用户信息
   {
-    path: '/user/info',
+    path: '/user',
     name: 'UserInfo',
-    component: () => import('@/views/user/UserInfo.vue')
+    component: () => import('@/views/user/UserInfo.vue'),
+    meta: {
+      pass: [userRole.CUSTOMER, userRole.ADMIN, userRole.SUPER_ADMIN]
+    }
   },
   // 工具
   {
@@ -44,7 +50,7 @@ const routes = [
     name: 'SoilMonitoring',
     component: () => import('@/views/tools/SoilMonitoring.vue'),
     meta: {
-      requireAuth: userRole.ADMIN
+      pass: [userRole.ADMIN, userRole.SUPER_ADMIN]
     }
   },
   {
@@ -52,7 +58,7 @@ const routes = [
     name: 'AirMonitoring',
     component: () => import('@/views/tools/AirMonitoring.vue'),
     meta: {
-      requireAuth: userRole.ADMIN
+      pass: [userRole.ADMIN, userRole.SUPER_ADMIN]
     }
   },
   {
@@ -60,8 +66,17 @@ const routes = [
     name: 'Alert',
     component: () => import('@/views/tools/AlertInfo.vue'),
     meta: {
-      requireAuth: userRole.ADMIN
+      pass: [userRole.ADMIN, userRole.SUPER_ADMIN]
     }
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import('@/views/NotFound.vue')
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/404'
   }
 ]
 
@@ -73,19 +88,15 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   // 正常放行
-  if (!to.meta.requireAuth) return true
-  // 未登录
-  if (to.meta.requireAuth > userRole.UNREGISTERED && !store.getters.isLogin) {
+  if (!to.meta.pass) return true
+  if (to.meta.pass.includes(store.getters.userInfo.role)) return true
+  else if (store.getters.userInfo.role === userRole.UNREGISTERED) {
     message.warn('请先登录！')
-    return '/user'
-  }
-  // 权限不足
-  const auth = { customer: userRole.CUSTOMER, admin: userRole.ADMIN, super_admin: userRole.SUPER_ADMIN }
-  if (auth[store.getters.userInfo.role] < to.meta.requireAuth) {
+    return '/login'
+  } else {
     message.warn('权限不足！')
     return '/home'
   }
-  return true
 })
 
 export default router

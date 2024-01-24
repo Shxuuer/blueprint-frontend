@@ -4,10 +4,9 @@ import axios from '@/axios'
 export default createStore({
   state () {
     return {
-      isLogin: false,
       userInfo: {
         username: '',
-        role: '',
+        role: 'unregistered',
         uid: '',
         token: ''
       }
@@ -15,13 +14,11 @@ export default createStore({
   },
   mutations: {
     setUserInfo (state, res) {
-      state.isLogin = true
       state.userInfo = res
       localStorage.setItem('token', res.token)
     }
   },
   getters: {
-    isLogin: state => state.isLogin,
     userInfo: state => state.userInfo
   },
   actions: {
@@ -44,7 +41,12 @@ export default createStore({
     },
     async logout ({ state, commit }) {
       localStorage.removeItem('token')
-      state.isLogin = false
+      state.userInfo = {
+        username: '',
+        role: 'unregistered',
+        uid: '',
+        token: ''
+      }
     },
     async register ({ state, commit }, { phone, password, username }) {
       return axios.post('/user/sign-up', {
