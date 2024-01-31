@@ -25,6 +25,7 @@ export default {
     }
   },
   methods: {
+    dayjs,
     async fetchData () {
       if (this.selectId === 0) {
         message.warn('请选择机器号')
@@ -95,7 +96,7 @@ export default {
           <a-descriptions-item label="温度">{{item.sensor_data.temperature}}</a-descriptions-item>
           <a-descriptions-item label="湿度">{{item.sensor_data.humidity}}</a-descriptions-item>
           <a-descriptions-item label="PH值">{{item.sensor_data.ph}}</a-descriptions-item>
-          <a-descriptions-item label="检测时间">{{item.sensor_data.detect_time}}</a-descriptions-item>
+          <a-descriptions-item label="检测时间">{{dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss')}}</a-descriptions-item>
         </a-descriptions>
       </a-row>
     </a-row>

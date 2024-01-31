@@ -24,6 +24,7 @@ export default {
     }
   },
   methods: {
+    dayjs,
     async getAlertInfo () {
       if (this.filter.checker.time && this.filter.time === null) {
         message.warn('请选择时间线')
@@ -102,7 +103,7 @@ export default {
       <a-descriptions style="margin: auto" :column="3" bordered>
         <a-descriptions-item label="详细信息" :span="3">{{item.pest_description}}</a-descriptions-item>
         <a-descriptions-item label="病虫害类别" :span="3">{{item.pest_name}}</a-descriptions-item>
-        <a-descriptions-item label="预警时间">{{item.alert_time}}</a-descriptions-item>
+        <a-descriptions-item label="预警时间">{{dayjs(item.alert_time).format('YYYY-MM-DD HH:mm:ss')}}</a-descriptions-item>
         <a-descriptions-item label="预警地点">经纬度({{item.latitude}}°,{{item.longitude}}°)</a-descriptions-item>
         <a-descriptions-item label="预警概率">{{item.pest_probability}}</a-descriptions-item>
         <a-descriptions-item label="勘测无人机编号">{{item.drone_id}}</a-descriptions-item>
