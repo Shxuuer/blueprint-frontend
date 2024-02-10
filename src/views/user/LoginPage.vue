@@ -51,7 +51,7 @@ export default {
         message.info('登录成功！')
         this.$router.push({ name: 'Home' })
       }).catch(err => {
-        if (err.register.status === 401) message.error('账号不存在或密码错误！')
+        if (err.status === 401) message.error('账号不存在或密码错误！')
         else message.error('登录失败！')
         console.log(err)
       }).finally(() => {
@@ -98,12 +98,12 @@ export default {
         <div style="font-size: 2em;color: #3e3e3e;width: 100%">用户登录</div>
         <div style="width: 80%;margin-top: 30px">
           <a-input v-model:value="login.phone" placeholder="输入手机号" />
-          <a-input-password v-model:value="login.password" placeholder="输入密码" />
+          <a-input-password v-model:value="login.password" placeholder="输入密码" @keydown.enter="userLogin"/>
         </div>
         <div style="width: 100%">
-          <a-button type="primary" style="width: 100px"
+          <a-button type="primary" style="width: 100px" :loading="loginLoading"
                     :disabled="login.password.length === 0 || login.phone.length === 0"
-                    @click="userLogin" :loading="loginLoading">登录</a-button>
+                    @click="userLogin">登录</a-button>
         </div>
         <div class="register" style="width: 100%;display: flex;flex-direction: row;">
           <a-button type="link" @click="isRegister = true">立即注册</a-button>
@@ -115,6 +115,7 @@ export default {
         海报/宣传图
       </div>
 
+      <!--注册页面-->
       <div class="info" v-if="isRegister">
         <div style="font-size: 2em;color: #3e3e3e;width: 100%">注册</div>
         <div style="width: 80%;margin-top: 30px">
@@ -124,13 +125,13 @@ export default {
                           :disabled="sendCodeInfo !== '发送验证码'"/>
           <a-input v-model:value="register.code" placeholder="输入验证码" />
           <a-input-password v-model:value="register.password1" placeholder="输入密码" />
-          <a-input-password v-model:value="register.password2" placeholder="重复密码" />
+          <a-input-password v-model:value="register.password2" placeholder="重复密码" @keydown.enter="userRegister"/>
         </div>
         <div style="width: 100%">
-          <a-button type="primary" style="width: 100px"
+          <a-button type="primary" style="width: 100px" :loading="registerLoading"
                     :disabled="register.password1.length === 0 || register.username.length === 0
                     || register.phone === 0 || register.password2.length === 0"
-                    @click="userRegister" :loading="registerLoading">
+                    @click="userRegister">
             注册
           </a-button>
         </div>
