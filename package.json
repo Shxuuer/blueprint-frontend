@@ -1,6 +1,6 @@
 {
   "name": "blue-print-frontend",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "vite --host",
@@ -12,6 +12,7 @@
     "ant-design-vue": "^4.0.4",
     "axios": "1.6.0",
     "dayjs": "^1.11.10",
+    "fix-webm-duration": "^1.0.5",
     "markdown-it": "^14.0.0",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",

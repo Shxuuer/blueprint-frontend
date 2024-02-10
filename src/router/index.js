@@ -71,6 +71,14 @@ const routes = [
     }
   },
   {
+    path: '/UAVControl',
+    name: 'UAVControl',
+    component: () => import('@/views/tools/UAVControl.vue'),
+    meta: {
+      pass: [userRole.ADMIN, userRole.SUPER_ADMIN]
+    }
+  },
+  {
     path: '/404',
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue')

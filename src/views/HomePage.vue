@@ -1,5 +1,5 @@
 <script>
-import { DotChartOutlined, WarningOutlined } from '@ant-design/icons-vue'
+import { DotChartOutlined, SendOutlined, WarningOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'HomePage',
@@ -34,6 +34,11 @@ export default {
           icon: WarningOutlined,
           name: '预警信息',
           path: '/alert'
+        },
+        {
+          icon: SendOutlined,
+          name: '无人机控制',
+          path: '/UAVControl'
         }
       ]
     }
@@ -75,7 +80,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 3% 0 0;
+  margin: 35px 3% 0 0;
   padding-top: 30px;
   padding-bottom: 40px;
 }

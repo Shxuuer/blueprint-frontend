@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [
     vue()
   ],
+  build: {
+    target: 'esnext'
+  },
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -14,7 +17,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:4523/m1/3486968-0-default',
+        target: 'http://1.14.125.238/api',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       }

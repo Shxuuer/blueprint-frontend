@@ -1,6 +1,5 @@
 import axios from 'axios'
 
-// TODO: 上线之前一定要和后端确认一下
 const instance = axios.create({
   baseURL: '/api',
   timeout: 5000
