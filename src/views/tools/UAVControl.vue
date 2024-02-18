@@ -150,7 +150,7 @@ export default {
     const that = this
     // 将图片复制到canvas上
     const img = new Image()
-    img.src = `${this.host}/video_feed?fps=10`
+    img.src = `${this.host}video_feed?fps=10`
     img.crossOrigin = 'Anonymous'
     const video = document.querySelector('.video')
     const canvas = document.getElementById('canvas-feed')
@@ -255,7 +255,7 @@ export default {
   </div>
   <a-modal title="参数输入" v-model:open="input.input" @ok="sendRequest()">
     <p>{{input.notes}}</p>
-    <a-input v-for="(item, name, index) in input.waiting" :key="index" v-model:value="input[name]">
+    <a-input v-for="(item, name, index) in input.waiting" :key="index" v-model:value="input[name]" style="margin-top: 10px">
       <template #prefix>
         {{item}}
       </template>
