@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import axios from '@/axios/index.js'
-import Antd, { message } from 'ant-design-vue'
+import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 import './assets/tailwind.css'
 
@@ -11,9 +11,7 @@ const app = createApp(App)
 
 if (window.localStorage.getItem('token')) {
   // 刷新token/尝试使用token登录
-  await store.dispatch('loginByToken').catch(() => {
-    message.error('登录过期，请重新登录！')
-  })
+  await store.dispatch('loginByToken')
 }
 
 app.provide('$axios', axios)

@@ -34,7 +34,13 @@ export default createStore({
     },
     // token尝试登录
     async loginByToken ({ state, commit }) {
-      return axios.put('/user/log-in').then(res => {
+      return axios({
+        method: 'put',
+        url: '/user/log-in',
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+      }).then(res => {
         this.commit('setUserInfo', res.data.data)
       }).catch(() => {
         message.error('登录过期，请重新登录')
