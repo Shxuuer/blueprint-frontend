@@ -35,7 +35,7 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.get('/alert', {
+      this.$axios.post('/ai/getAlert', {
         params: {
           ...this.convertToJson
         }

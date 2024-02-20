@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from '@/axios'
+import { message } from 'ant-design-vue'
 
 export default createStore({
   state () {
@@ -33,11 +34,10 @@ export default createStore({
     },
     // token尝试登录
     async loginByToken ({ state, commit }) {
-      return axios.put('/user/log-in', {
-        token: localStorage.getItem('token')
-      }).then(res => {
+      return axios.put('/user/log-in').then(res => {
         this.commit('setUserInfo', res.data.data)
       }).catch(() => {
+        message.error('登录过期，请重新登录')
         localStorage.removeItem('token')
       })
     },
