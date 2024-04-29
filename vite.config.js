@@ -16,10 +16,12 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api': {
-        target: 'http://1.14.125.238/api',
+      '/chang-shun/api': {
+        // target: 'http://localhost:4523/m1/3486968-0-default',
+        target: 'https://1.14.125.238/chang-shun/api',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
+        secure: false,
+        rewrite: (path) => path.replace(/^\/chang-shun\/api/, '')
       }
     }
   }
