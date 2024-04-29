@@ -42,6 +42,7 @@ export default {
       }).then(res => {
         if (!res.data.data) {
           message.warn('未查询到数据')
+          this.data = []
           return
         }
         this.data = res.data.data
@@ -101,7 +102,7 @@ export default {
         <a-spin :spinning="loading" style="margin: auto;"/>
       </a-row>
       <a-row v-if="!loading" style="width: 100%">
-        <a-row style="width: 90%;margin: 10px auto;" v-if="data.length !== 0">传感器信息：{{data[0].sensor_info}}</a-row>
+        <a-row style="width: 90%;margin: 10px auto;" v-if="data.length !== 0">传感器信息：<span style="color: #3e3e3e">{{data[0].sensor_info}}</span></a-row>
         <a-row style="width: 100%">
           <a-descriptions bordered class="data" v-for="(item, index) in data" :key="index">
             <a-descriptions-item label="检测时间" :span="2">{{dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss')}}</a-descriptions-item>
