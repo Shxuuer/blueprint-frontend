@@ -2,6 +2,7 @@
 import { DownOutlined } from '@ant-design/icons-vue'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
+
 export default {
   name: 'SoilMonitoring',
   components: { DownOutlined },
@@ -67,20 +68,21 @@ export default {
 </script>
 
 <template>
-  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="土壤数据监控" @back="$router.push({name: 'Home'})"/>
+  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em"
+                 title="土壤数据监控" @back="$router.push({name: 'Home'})"/>
   <div style="width: 100%">
     <a-row class="filter">
       <a-row>
         <a-dropdown>
-          <a @click.prevent style="font-size: 1.2em;margin-right: 30px;" >
+          <a @click.prevent style="font-size: 1.2em;margin-right: 30px;">
             {{ selectId === 0 ? '选择仪器编号' : `已选中${selectId}号检测器` }}
-            <DownOutlined />
+            <DownOutlined/>
           </a>
           <template #overlay>
             <a-menu>
               <a-menu-item v-for="(item, index) in instrList" :key="index" @click="selectId = item.id">
               <span>
-                {{item.id}}号 {{item.location}} {{item.function}}
+                {{ item.id }}号 {{ item.location }} {{ item.function }}
                 <span v-if="item.status === '故障'" style="color: red">（故障）</span>
               </span>
               </a-menu-item>
@@ -102,17 +104,20 @@ export default {
         <a-spin :spinning="loading" style="margin: auto;"/>
       </a-row>
       <a-row v-if="!loading" style="width: 100%">
-        <a-row style="width: 90%;margin: 10px auto;" v-if="data.length !== 0">传感器信息：<span style="color: #3e3e3e">{{data[0].sensor_info}}</span></a-row>
+        <a-row style="width: 90%;margin: 10px auto;" v-if="data.length !== 0">传感器信息：<span
+            style="color: #3e3e3e">{{ data[0].sensor_info }}</span></a-row>
         <a-row style="width: 100%">
           <a-descriptions bordered class="data" v-for="(item, index) in data" :key="index">
-            <a-descriptions-item label="检测时间" :span="2">{{dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss')}}</a-descriptions-item>
-            <a-descriptions-item label="温度(℃)">{{item.sensor_data.temperature}}</a-descriptions-item>
-            <a-descriptions-item label="电导率(us/cm)">{{item.sensor_data.conductivity}}</a-descriptions-item>
-            <a-descriptions-item label="湿度(%)">{{item.sensor_data.humidity}}</a-descriptions-item>
-            <a-descriptions-item label="PH值(pH)">{{item.sensor_data.ph}}</a-descriptions-item>
-            <a-descriptions-item label="氮指数(mg/kg)">{{item.sensor_data.nitrogen}}</a-descriptions-item>
-            <a-descriptions-item label="磷指数(mg/kg)">{{item.sensor_data.phosphorus}}</a-descriptions-item>
-            <a-descriptions-item label="钾指数(mg/kg)">{{item.sensor_data.potassium}}</a-descriptions-item>
+            <a-descriptions-item label="检测时间" :span="2">
+              {{ dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss') }}
+            </a-descriptions-item>
+            <a-descriptions-item label="温度(℃)">{{ item.sensor_data.temperature }}</a-descriptions-item>
+            <a-descriptions-item label="电导率(us/cm)">{{ item.sensor_data.conductivity }}</a-descriptions-item>
+            <a-descriptions-item label="湿度(%)">{{ item.sensor_data.humidity }}</a-descriptions-item>
+            <a-descriptions-item label="PH值(pH)">{{ item.sensor_data.ph }}</a-descriptions-item>
+            <a-descriptions-item label="氮指数(mg/kg)">{{ item.sensor_data.nitrogen }}</a-descriptions-item>
+            <a-descriptions-item label="磷指数(mg/kg)">{{ item.sensor_data.phosphorus }}</a-descriptions-item>
+            <a-descriptions-item label="钾指数(mg/kg)">{{ item.sensor_data.potassium }}</a-descriptions-item>
           </a-descriptions>
         </a-row>
       </a-row>

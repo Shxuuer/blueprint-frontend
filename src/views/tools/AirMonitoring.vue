@@ -2,6 +2,7 @@
 import { DownOutlined } from '@ant-design/icons-vue'
 import dayjs from 'dayjs'
 import { message } from 'ant-design-vue'
+
 export default {
   name: 'AirMonitoring',
   components: { DownOutlined },
@@ -12,15 +13,16 @@ export default {
       time: null,
       data: [],
       loading: false,
-      instrList: []
+      instrList: [],
+      timeSelected: false
     }
   },
   computed: {
     convertToJson () {
       return {
         sensor_id: this.selectId,
-        start_time: dayjs(this.time[0].$d).format('YYYY-MM-DDTHH:mm:ssZ'),
-        end_time: dayjs(this.time[1].$d).format('YYYY-MM-DDTHH:mm:ssZ')
+        start_time: this.timeSelected ? dayjs(this.time[0].$d).format('YYYY-MM-DDTHH:mm:ssZ') : undefined,
+        end_time: this.timeSelected ? dayjs(this.time[1].$d).format('YYYY-MM-DDTHH:mm:ssZ') : undefined
       }
     }
   },
@@ -31,14 +33,19 @@ export default {
         message.warn('请选择机器号')
         return
       }
-      if (this.time === null) {
-        message.warn('请选择时间线')
+      if (this.timeSelected && this.time === null) {
+        message.warn('请选择时间')
         return
       }
       this.loading = true
       this.$axios.get('/air-quality-sensor/data', {
         params: this.convertToJson
       }).then(res => {
+        if (!res.data.data) {
+          message.warn('未查询到数据')
+          this.data = []
+          return
+        }
         this.data = res.data.data
       }).catch(() => {
         message.error('查询失败')
@@ -61,40 +68,51 @@ export default {
 </script>
 
 <template>
-  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="空气数据监控" @back="$router.push({name: 'Home'})"/>
-  <div>
-    <a-row style="width: 90%;margin: 20px auto">
-      <a-dropdown>
-        <a @click.prevent style="font-size: 1.2em;margin-right: 30px;" >
-          {{ selectId === 0 ? '选择仪器编号' : `已选中${selectId}号检测器` }}
-          <DownOutlined />
-        </a>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item v-for="(item, index) in instrList" :key="index" @click="selectId = item.id">
+  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em"
+                 title="空气数据监控" @back="$router.push({name: 'Home'})"/>
+  <div style="width: 100%">
+    <a-row class="filter">
+      <a-row>
+        <a-dropdown>
+          <a @click.prevent style="font-size: 1.2em;margin-right: 30px;">
+            {{ selectId === 0 ? '选择仪器编号' : `已选中${selectId}号检测器` }}
+            <DownOutlined/>
+          </a>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item v-for="(item, index) in instrList" :key="index" @click="selectId = item.id">
               <span>
-                {{item.id}}号 {{item.location}} {{item.function}}
+                {{ item.id }}号 {{ item.location }} {{ item.function }}
                 <span v-if="item.status === '故障'" style="color: red">（故障）</span>
               </span>
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-      <a-range-picker v-model:value="time" show-time style="margin-right: 10px"/>
-      <a-button type="primary" @click="fetchData">查询</a-button>
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+      </a-row>
+      <a-row>
+        <a-checkbox style="margin-right: 10px" v-model:checked="timeSelected"/>
+        <a-range-picker v-model:value="time" show-time style="margin-right: 10px" :disabled="!timeSelected"/>
+      </a-row>
+      <a-row>
+        <a-button type="primary" @click="fetchData">查询</a-button>
+      </a-row>
     </a-row>
     <a-row style="margin-top: 20px;">
       <a-row style="width: 100%">
         <a-spin :spinning="loading" style="margin: auto;"/>
       </a-row>
       <a-row style="width: 100%" v-if="!loading">
-        <a-descriptions :title="`${item.sensor_id}号空气传感器`" bordered class="data" v-for="(item, index) in data" :key="index">
-          <a-descriptions-item label="传感器编号">{{item.sensor_id}}</a-descriptions-item>
-          <a-descriptions-item label="传感器信息" :span="2">{{item.sensor_info}}</a-descriptions-item>
-          <a-descriptions-item label="二氧化碳浓度">{{item.sensor_data.co2concentration}}</a-descriptions-item>
-          <a-descriptions-item label="温度">{{item.sensor_data.temperature}}</a-descriptions-item>
-          <a-descriptions-item label="湿度">{{item.sensor_data.humidity}}</a-descriptions-item>
-          <a-descriptions-item label="检测时间">{{dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss')}}</a-descriptions-item>
+        <a-descriptions :title="`${item.sensor_id}号空气传感器`" bordered class="data" v-for="(item, index) in data"
+                        :key="index">
+          <a-descriptions-item label="传感器编号">{{ item.sensor_id }}</a-descriptions-item>
+          <a-descriptions-item label="传感器信息" :span="2">{{ item.sensor_info }}</a-descriptions-item>
+          <a-descriptions-item label="二氧化碳浓度">{{ item.sensor_data.co2concentration }}</a-descriptions-item>
+          <a-descriptions-item label="温度">{{ item.sensor_data.temperature }}</a-descriptions-item>
+          <a-descriptions-item label="湿度">{{ item.sensor_data.humidity }}</a-descriptions-item>
+          <a-descriptions-item label="检测时间">
+            {{ dayjs(item.sensor_data.detect_time).format('YYYY-MM-DD HH:mm:ss') }}
+          </a-descriptions-item>
         </a-descriptions>
       </a-row>
     </a-row>
@@ -111,5 +129,16 @@ export default {
   margin: 10px auto;
   border-top: 1px solid #a3a3a3;
   padding-top: 20px;
+}
+
+.filter {
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column
+}
+
+.filter:deep(.ant-row) {
+  margin-bottom: 15px;
 }
 </style>
