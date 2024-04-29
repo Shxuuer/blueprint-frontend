@@ -223,7 +223,7 @@ export default {
 </script>
 
 <template>
-  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="无人机控制" @back="$router.push({name: 'Home'})"/>
+  <a-page-header style="border-bottom: 1px solid rgb(235, 237, 240);padding: 10px 20px;font-size: 1.1em" title="无人机拍摄" @back="$router.push({name: 'Home'})"/>
   <div class="main">
     <a-button-group>
       <a-button type="primary" @click="sendRequest('unlock')">飞控解锁</a-button>

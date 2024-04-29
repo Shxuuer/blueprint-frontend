@@ -8,6 +8,7 @@ const instance = axios.create({
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
   // 所有请求加上token头
+  config.headers.Authorization = 'Bearer ' + localStorage.getItem('token') || undefined
   config.headers.token = localStorage.getItem('token') || undefined
   // 请求本地资源时，加上@前缀
   if (config.url.substring(0, 1) === '@') {

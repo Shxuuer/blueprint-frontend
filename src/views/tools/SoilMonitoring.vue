@@ -40,8 +40,12 @@ export default {
       this.$axios.get('/soil-sensor/data', {
         params: this.convertToJson
       }).then(res => {
+        if (!res.data.data) {
+          message.warn('未查询到数据')
+          return
+        }
         this.data = res.data.data
-      }).catch(() => {
+      }).catch((e) => {
         message.error('查询失败')
       }).finally(() => {
         this.loading = false

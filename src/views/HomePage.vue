@@ -1,9 +1,8 @@
 <script>
-import { DotChartOutlined, SendOutlined, WarningOutlined } from '@ant-design/icons-vue'
+import { DotChartOutlined, SendOutlined, WarningOutlined, CompassOutlined } from '@ant-design/icons-vue'
 
 export default {
   name: 'HomePage',
-  components: { DotChartOutlined, WarningOutlined },
   mounted () {
     // 主页背景图片轮播
     setInterval(() => {
@@ -37,9 +36,14 @@ export default {
         },
         {
           icon: SendOutlined,
-          name: '无人机控制',
+          name: '无人机拍摄',
           path: '/UAVControl'
         }
+        // {
+        //   icon: CompassOutlined,
+        //   name: '无人机地图导航',
+        //   path: '/UAVMap'
+        // }
       ]
     }
   }
